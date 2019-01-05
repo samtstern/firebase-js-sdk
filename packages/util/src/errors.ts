@@ -104,7 +104,7 @@ export class FirebaseError implements FirebaseError {
         this.name = ERROR_NAME;
         // Make non-enumerable getter for the property.
         Object.defineProperty(this, 'stack', {
-          get: function() {
+          get: function () {
             return err.stack;
           }
         });
@@ -137,14 +137,14 @@ export class ErrorFactory<T extends string> {
 
     let template = this.errors[code as string];
 
-    let fullCode = this.service + '/' + code;
+    const fullCode = this.service + '/' + code;
     let message: string;
 
     if (template === undefined) {
       message = 'Error';
     } else {
       message = template.replace(this.pattern, (match, key) => {
-        let value = data![key];
+        const value = data[key];
         return value !== undefined ? value.toString() : '<' + key + '?>';
       });
     }
@@ -155,12 +155,12 @@ export class ErrorFactory<T extends string> {
 
     // Populate the Error object with message parts for programmatic
     // accesses (e.g., e.file).
-    for (let prop in data) {
-      if (!data.hasOwnProperty(prop) || prop.slice(-1) === '_') {
-        continue;
+    Object.keys(data).forEach((prop) => {
+      if (prop.slice(-1) === '_') {
+        return;
       }
       (err as any)[prop] = data[prop];
-    }
+    })
 
     return err;
   }
