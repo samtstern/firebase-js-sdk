@@ -104,7 +104,7 @@ export class FirebaseError implements FirebaseError {
         this.name = ERROR_NAME;
         // Make non-enumerable getter for the property.
         Object.defineProperty(this, 'stack', {
-          get: function () {
+          get: function() {
             return err.stack;
           }
         });
@@ -155,12 +155,12 @@ export class ErrorFactory<T extends string> {
 
     // Populate the Error object with message parts for programmatic
     // accesses (e.g., e.file).
-    Object.keys(data).forEach((prop) => {
+    Object.keys(data).forEach(prop => {
       if (prop.slice(-1) === '_') {
         return;
       }
       (err as any)[prop] = data[prop];
-    })
+    });
 
     return err;
   }

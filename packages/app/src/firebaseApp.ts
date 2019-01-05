@@ -44,9 +44,7 @@ const DEFAULT_ENTRY_NAME = '[DEFAULT]';
 
 export const SDK_VERSION: string = '${JSCORE_VERSION}';
 
-export function initializeApp(): FirebaseApp {
-
-}
+export function initializeApp(): FirebaseApp {}
 
 export function getAppInstance(name?: string): FirebaseApp | null {
   name = name || DEFAULT_ENTRY_NAME;
@@ -60,13 +58,9 @@ export function getApps(): FirebaseApp[] {
   return apps;
 }
 
-export function deleteApp(app: FirebaseApp): Promise<void> {
+export function deleteApp(app: FirebaseApp): Promise<void> {}
 
-}
-
-class FirebaseAppImpl implements FirebaseApp {
-
-}
+class FirebaseAppImpl implements FirebaseApp {}
 
 enum AppError {
   NoApp = 'no-app',
@@ -76,8 +70,8 @@ enum AppError {
   InvalidAppArgument = 'invalid-app-argument',
 
   DuplicateService = 'duplicate-service',
-  SaNotSupported = 'sa-not-supported',
-};
+  SaNotSupported = 'sa-not-supported'
+}
 
 const errors: { [key in AppError]: string } = {
   [AppError.NoApp]:
@@ -86,7 +80,8 @@ const errors: { [key in AppError]: string } = {
   [AppError.BadAppName]: "Illegal App name: '{$name}",
   [AppError.DuplicateApp]: "Firebase App named '{$name}' already exists",
   [AppError.AppDeleted]: "Firebase App named '{$name}' already deleted",
-  [AppError.DuplicateService]: "Firebase service named '{$name}' already registered",
+  [AppError.DuplicateService]:
+    "Firebase service named '{$name}' already registered",
   [AppError.SaNotSupported]:
     'Initializing the Firebase SDK with a service ' +
     'account is only allowed in a Node.js environment. On client ' +
@@ -96,7 +91,6 @@ const errors: { [key in AppError]: string } = {
     'firebase.{$name}() takes either no argument or a ' +
     'Firebase App instance.'
 };
-
 
 const appErrors = new ErrorFactory<AppError>('app', 'Firebase', errors);
 function error(code: AppError, args?: { [name: string]: any }): never {
