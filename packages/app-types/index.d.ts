@@ -47,59 +47,7 @@ export class FirebaseApp {
   automaticDataCollectionEnabled: boolean;
 
   /**
-   * Make the given App unusable and free resources.
+   * The (read-only) flag whether the app has been deleted.
    */
-  delete(): Promise<void>;
-}
-
-export interface FirebaseNamespace {
-  /**
-   * Create (and initialize) a FirebaseApp.
-   *
-   * @param options Options to configure the services used in the App.
-   * @param config The optional config for your firebase app
-   */
-  initializeApp(
-    options: FirebaseOptions,
-    config?: FirebaseAppConfig
-  ): FirebaseApp;
-  /**
-   * Create (and initialize) a FirebaseApp.
-   *
-   * @param options Options to configure the services used in the App.
-   * @param name The optional name of the app to initialize ('[DEFAULT]' if
-   * omitted)
-   */
-  initializeApp(options: FirebaseOptions, name?: string): FirebaseApp;
-
-  app: {
-    /**
-     * Retrieve an instance of a FirebaseApp.
-     *
-     * Usage: firebase.app()
-     *
-     * @param name The optional name of the app to return ('[DEFAULT]' if omitted)
-     */
-    (name?: string): FirebaseApp;
-
-    /**
-     * For testing FirebaseApp instances:
-     *  app() instanceof firebase.app.App
-     *
-     * DO NOT call this constuctor directly (use firebase.app() instead).
-     */
-    App: typeof FirebaseApp;
-  };
-
-  /**
-   * A (read-only) array of all the initialized Apps.
-   */
-  apps: FirebaseApp[];
-
-  // Inherit the type information of our exported Promise implementation from
-  // es6-promises.
-  Promise: typeof Promise;
-
-  // The current SDK version.
-  SDK_VERSION: string;
+  isDeleted: boolean;
 }
