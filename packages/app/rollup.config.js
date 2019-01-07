@@ -45,26 +45,5 @@ export default [
     ],
     plugins,
     external: id => deps.some(dep => id === dep || id.startsWith(`${dep}/`))
-  },
-  {
-    input: 'index.node.ts',
-    output: {
-      file: pkg.main,
-      format: 'cjs'
-    },
-    plugins,
-    external: id => deps.some(dep => id === dep || id.startsWith(`${dep}/`))
-  },
-  {
-    input: 'index.rn.ts',
-    output: {
-      file: pkg['react-native'],
-      format: 'cjs'
-    },
-    plugins,
-    external: id =>
-      [...deps, 'react-native'].some(
-        dep => id === dep || id.startsWith(`${dep}/`)
-      )
   }
 ];

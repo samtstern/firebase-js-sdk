@@ -3,10 +3,10 @@
   "version": "0.3.5",
   "description": "The primary entrypoint to the Firebase JS SDK",
   "author": "Firebase <firebase-support@google.com> (https://firebase.google.com/)",
-  "main": "dist/index.node.cjs.js",
+  "main": "dist/index.cjs.js",
   "browser": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "react-native": "dist/index.rn.cjs.js",
+  "react-native": "dist/index.cjs.js",
   "files": [
     "dist"
   ],
