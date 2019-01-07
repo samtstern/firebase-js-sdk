@@ -19,14 +19,8 @@ import {
   FirebaseOptions,
   FirebaseAppConfig
 } from '@firebase/app-types';
-import {
-  AppHook
-} from '@firebase/app-types/private';
-import {
-  deepCopy,
-  ErrorFactory,
-  FirebaseError,
-} from '@firebase/util';
+import { AppHook } from '@firebase/app-types/private';
+import { deepCopy, ErrorFactory, FirebaseError } from '@firebase/util';
 
 const apps: { [name: string]: FirebaseApp } = {};
 const appHooks: { [name: string]: AppHook } = {};
@@ -38,7 +32,10 @@ export function initializeApp(
   options: FirebaseOptions,
   config?: FirebaseAppConfig
 ): FirebaseApp;
-export function initializeApp(options: FirebaseOptions, name?: string): FirebaseApp;
+export function initializeApp(
+  options: FirebaseOptions,
+  name?: string
+): FirebaseApp;
 export function initializeApp(options: FirebaseOptions, rawConfig = {}) {
   if (typeof rawConfig !== 'object' || rawConfig === null) {
     const name = rawConfig;
@@ -61,17 +58,13 @@ export function initializeApp(options: FirebaseOptions, rawConfig = {}) {
     throw error(AppError.DuplicateApp, { name: name });
   }
 
-  const app = new FirebaseAppImpl(
-    options,
-    config!
-  );
+  const app = new FirebaseAppImpl(options, config!);
 
   apps[name] = app;
   callAppHooks(app, AppEvent.Create);
 
   return app;
 }
-
 
 export function getAppInstance(name?: string): FirebaseApp | null {
   name = name || DEFAULT_ENTRY_NAME;
@@ -82,7 +75,7 @@ export function getAppInstance(name?: string): FirebaseApp | null {
 }
 
 export function getApps(): FirebaseApp[] {
-  return Object.keys(apps).map((name) => apps[name]);
+  return Object.keys(apps).map(name => apps[name]);
 }
 
 export function deleteApp(app: FirebaseApp): Promise<void> {
@@ -129,10 +122,7 @@ class FirebaseAppImpl implements FirebaseApp {
 
   private automaticDataCollectionEnabled_: boolean;
 
-  constructor(
-    options: FirebaseOptions,
-    config: FirebaseAppConfig
-  ) {
+  constructor(options: FirebaseOptions, config: FirebaseAppConfig) {
     this.name_ = config.name!;
     this.automaticDataCollectionEnabled_ =
       config.automaticDataCollectionEnabled || false;
@@ -179,7 +169,6 @@ class FirebaseAppImpl implements FirebaseApp {
       throw error(AppError.AppDeleted, { name: this.name_ });
     }
   }
-
 }
 
 enum AppEvent {
