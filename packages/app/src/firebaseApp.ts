@@ -180,11 +180,7 @@ enum AppError {
   NoApp = 'no-app',
   BadAppName = 'bad-app-name',
   DuplicateApp = 'duplicate-app',
-  AppDeleted = 'app-deleted',
-  InvalidAppArgument = 'invalid-app-argument',
-
-  DuplicateService = 'duplicate-service',
-  SaNotSupported = 'sa-not-supported'
+  AppDeleted = 'app-deleted'
 }
 
 const errors: { [key in AppError]: string } = {
@@ -193,17 +189,7 @@ const errors: { [key in AppError]: string } = {
     'call Firebase App.initializeApp()',
   [AppError.BadAppName]: "Illegal App name: '{$name}",
   [AppError.DuplicateApp]: "Firebase App named '{$name}' already exists",
-  [AppError.AppDeleted]: "Firebase App named '{$name}' already deleted",
-  [AppError.DuplicateService]:
-    "Firebase service named '{$name}' already registered",
-  [AppError.SaNotSupported]:
-    'Initializing the Firebase SDK with a service ' +
-    'account is only allowed in a Node.js environment. On client ' +
-    'devices, you should instead initialize the SDK with an api key and ' +
-    'auth domain',
-  [AppError.InvalidAppArgument]:
-    'firebase.{$name}() takes either no argument or a ' +
-    'Firebase App instance.'
+  [AppError.AppDeleted]: "Firebase App named '{$name}' already deleted"
 };
 
 const appErrors = new ErrorFactory<AppError>('app', 'Firebase', errors);
