@@ -54,7 +54,7 @@ export function initializeApp(options: FirebaseOptions, rawConfig = {}) {
     throw error(AppError.BadAppName, { name: name + '' });
   }
 
-  if (apps[name]) {
+  if (contains(apps, name)) {
     throw error(AppError.DuplicateApp, { name: name });
   }
 
@@ -66,9 +66,8 @@ export function initializeApp(options: FirebaseOptions, rawConfig = {}) {
   return app;
 }
 
-export function getAppInstance(name?: string): FirebaseApp | null {
-  name = name || DEFAULT_ENTRY_NAME;
-  if (!apps[name]) {
+export function getAppInstance(name: string = DEFAULT_ENTRY_NAME): FirebaseApp | null {
+  if (!contains(apps, name)) {
     throw error(AppError.NoApp, { name: name });
   }
   return apps[name];
@@ -86,7 +85,7 @@ export function deleteApp(app: FirebaseApp): Promise<void> {
     resolve();
   })
     .then(() => {
-      /** Each finrebase service should register a event handler with firebase app.
+      /** Each firebase service should register a event handler with firebase app.
        *  The event handler should clean up the service when its associated app is being deleted.
        */
       callAppHooks(app, AppEvent.Delete);
@@ -99,8 +98,9 @@ export function deleteApp(app: FirebaseApp): Promise<void> {
 
 /**
  * @internal
+ * TODO - expose via IOC container
  */
-export function registerAppHook(name, callback: AppHook): void {
+export function registerAppHook(name: string, callback: AppHook): void {
   appHooks[name] = callback;
 
   // Run the **new** app hook on all existing apps
@@ -109,11 +109,26 @@ export function registerAppHook(name, callback: AppHook): void {
   });
 }
 
+/** 
+ * @internal
+ */
+export function removeAppHook(name: string): void {
+  if (!appHooks[name]) {
+    throw error(AppError.BadHookName, { name });
+  }
+
+  delete appHooks[name];
+}
+
 function callAppHooks(app: FirebaseApp, eventName: AppEvent) {
   Object.keys(appHooks).forEach(name => {
     appHooks[name](eventName, app);
   });
 }
+
+const contains = function (obj, key) {
+  return Object.prototype.hasOwnProperty.call(obj, key);
+};
 
 class FirebaseAppImpl implements FirebaseApp {
   private options_: FirebaseOptions;
@@ -157,7 +172,7 @@ class FirebaseAppImpl implements FirebaseApp {
    * @internal
    */
   set isDeleted(val: boolean) {
-    this.isDeleted = val;
+    this.isDeleted_ = val;
   }
 
   /**
@@ -180,7 +195,8 @@ enum AppError {
   NoApp = 'no-app',
   BadAppName = 'bad-app-name',
   DuplicateApp = 'duplicate-app',
-  AppDeleted = 'app-deleted'
+  AppDeleted = 'app-deleted',
+  BadHookName = 'bad-hook-name'
 }
 
 const errors: { [key in AppError]: string } = {
@@ -189,7 +205,8 @@ const errors: { [key in AppError]: string } = {
     'call Firebase App.initializeApp()',
   [AppError.BadAppName]: "Illegal App name: '{$name}",
   [AppError.DuplicateApp]: "Firebase App named '{$name}' already exists",
-  [AppError.AppDeleted]: "Firebase App named '{$name}' already deleted"
+  [AppError.AppDeleted]: "Firebase App named '{$name}' already deleted",
+  [AppError.BadHookName]: "Firebase App Hook names '{$name} doesn't exist"
 };
 
 const appErrors = new ErrorFactory<AppError>('app', 'Firebase', errors);
