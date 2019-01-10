@@ -18,14 +18,14 @@ import { FirebaseApp } from '@firebase/app-types';
 import {
   getApps,
   initializeApp,
-  getAppInstance, deleteApp,
+  getAppInstance,
+  deleteApp,
   registerAppHook,
   removeAppHook
 } from '../src/firebaseApp';
 import { assert } from 'chai';
 
 describe('Firebase App Class', () => {
-
   beforeEach(async () => {
     const apps = getApps();
 
@@ -116,10 +116,7 @@ describe('Firebase App Class', () => {
   });
 
   it('automaticDataCollectionEnabled can be set via the config object', () => {
-    let app = initializeApp(
-      {},
-      { automaticDataCollectionEnabled: true }
-    );
+    let app = initializeApp({}, { automaticDataCollectionEnabled: true });
     assert.equal(app.automaticDataCollectionEnabled, true);
   });
 

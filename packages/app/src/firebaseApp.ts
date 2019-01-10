@@ -66,7 +66,9 @@ export function initializeApp(options: FirebaseOptions, rawConfig = {}) {
   return app;
 }
 
-export function getAppInstance(name: string = DEFAULT_ENTRY_NAME): FirebaseApp | null {
+export function getAppInstance(
+  name: string = DEFAULT_ENTRY_NAME
+): FirebaseApp | null {
   if (!contains(apps, name)) {
     throw error(AppError.NoApp, { name: name });
   }
@@ -109,7 +111,7 @@ export function registerAppHook(name: string, callback: AppHook): void {
   });
 }
 
-/** 
+/**
  * @internal
  */
 export function removeAppHook(name: string): void {
@@ -126,7 +128,7 @@ function callAppHooks(app: FirebaseApp, eventName: AppEvent) {
   });
 }
 
-const contains = function (obj, key) {
+const contains = function(obj, key) {
   return Object.prototype.hasOwnProperty.call(obj, key);
 };
 
