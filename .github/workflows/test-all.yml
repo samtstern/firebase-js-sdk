@@ -5,7 +5,7 @@ on: push
 jobs:
   test:
     name: Node.js and Browser (Chrome) Tests
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
 
     steps:
     - uses: actions/checkout@v2
