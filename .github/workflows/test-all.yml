@@ -9,8 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Get yarn
-      run: npm install -g yarn
     - name: Test setup and yarn install	
       run: |	
         cp config/ci.config.json config/project.json	
